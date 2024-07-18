@@ -25,6 +25,7 @@ test_urls = {
         "delete": f"{api_prefix}/user/",
         "update_profile_image": f"{api_prefix}/user/update_profile_image",
         "get_user_exists": f"{api_prefix}/user/is_exists",
+        "my_data": f"{api_prefix}/user/my_data",
     },
     "vacancy": {
         "get_all_vacancies": f"{api_prefix}/vacancy/",

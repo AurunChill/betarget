@@ -54,3 +54,8 @@ async def check_user_exists(
         user_username = await get_user_by_username(username=username)
         response["is_exists_by_username"] = user_username is not None
     return response
+
+
+@router.get("/my_data")
+async def get_my_data(user: User = Depends(current_user)) -> UserRead:
+    return user

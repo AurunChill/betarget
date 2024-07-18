@@ -12,6 +12,8 @@ from fastapi_users.exceptions import UserAlreadyExists
 from fastapi_users.jwt import SecretType, decode_jwt, generate_jwt
 from fastapi_users.manager import BaseUserManager, UserManagerDependency
 from fastapi_users.router.common import ErrorCode, ErrorModel
+from fastapi.responses import RedirectResponse
+
 
 from src.config import settings
 
@@ -151,9 +153,6 @@ def get_oauth_router(
         # Authenticate
         response = await backend.login(strategy, user)
         await user_manager.on_after_login(user, request, response)
-        from fastapi.responses import RedirectResponse
-        import starlette.status as status
-
         return RedirectResponse(url=settings.auth.LOGIN_REDIRECT, status_code=status.HTTP_302_FOUND)
 
     return router

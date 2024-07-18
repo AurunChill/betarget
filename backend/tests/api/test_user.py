@@ -93,3 +93,16 @@ async def test_check_user_exists_both(auth_async_client: AsyncClient):
     assert response.status_code == 200
     assert "is_exists_by_email" in response.json()
     assert "is_exists_by_username" in response.json()
+
+
+@pytest.mark.asyncio
+async def test_get_my_data_successfull(auth_async_client: AsyncClient, user_data):
+    response = await auth_async_client.get(url=test_urls["user"].get("my_data"))
+    response_data = response.json()
+    assert response.status_code == 200 and response_data.get("username") == user_data.get("username")
+
+
+@pytest.mark.asyncio
+async def test_get_my_data_unsuccessfull(async_client: AsyncClient):
+    response = await async_client.get(url=test_urls["user"].get("my_data"))
+    assert response.status_code == 401
