@@ -14,8 +14,8 @@ from fastapi_users.manager import BaseUserManager, UserManagerDependency
 from fastapi_users.router.common import ErrorCode, ErrorModel
 from fastapi.responses import RedirectResponse
 
-
 from src.config import settings
+from src.logger import logger
 
 
 STATE_TOKEN_AUDIENCE = "fastapi-users:oauth-state"
@@ -153,6 +153,12 @@ def get_oauth_router(
         # Authenticate
         response = await backend.login(strategy, user)
         await user_manager.on_after_login(user, request, response)
-        return RedirectResponse(url=settings.auth.LOGIN_REDIRECT, status_code=status.HTTP_302_FOUND)
+        logger.info(response.headers)
+        bonds_value = response.headers['set-cookie'].split('bonds=')[1].split(';')[0]
+        max_age_value = int(response.headers['set-cookie'].split('Max-Age=')[1].split(';')[0])
+        redirect_response = RedirectResponse(url=settings.auth.LOGIN_REDIRECT, status_code=status.HTTP_302_FOUND)
+        redirect_response.set_cookie(key='bonds', value=bonds_value, secure=True, httponly=True, samesite='lax', max_age=max_age_value, path='/')
+        
+        return redirect_response
 
     return router
