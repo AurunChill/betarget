@@ -30,6 +30,16 @@ class ResumeStage(enum.Enum):
     offer = 'offer'
 
 
+class Education(enum.Enum):
+    incomplete_secondary = "incomplete_secondary"
+    secondary = "secondary"
+    secondary_vocational = "secondary_vocational"
+    incomplete_higher = "incomplete_higher"
+    bachelor = "bachelor"
+    master = "master"
+    phd = "phd"
+
+
 # Models ------------------------
 class Resume(Base):
     __tablename__ = "resume"
@@ -45,7 +55,7 @@ class Resume(Base):
     interest_in_job: Mapped[InterestInJob | None]
     skills: Mapped[ARRAY | None] = mapped_column(ARRAY(String(255)))
     experience: Mapped[str | None]
-    education: Mapped[str | None]
+    education: Mapped[Education | None]
     ready_to_relocate: Mapped[bool | None]
     ready_for_business_trips: Mapped[bool | None]
 

@@ -1,5 +1,5 @@
 from sqladmin import ModelView
-from resume.models import Resume, Candidate, Gender, InterestInJob, ResumeStage
+from resume.models import Resume, Candidate, Gender, InterestInJob, ResumeStage, Education
 
 class ResumeAdmin(ModelView, model=Resume):
     name = "Resume"
@@ -45,6 +45,15 @@ class ResumeAdmin(ModelView, model=Resume):
             (InterestInJob.not_looking_for_a_job.value, 'Not Looking for a Job'),
             (InterestInJob.considers_proposals.value, 'Considers Proposals'),
             (InterestInJob.offered_a_job_decides.value, 'Offered a Job, Decides')
+        ],
+        'education': [
+            (Education.incomplete_secondary.value, 'Incomplete Secondary'),
+            (Education.secondary.value, 'Secondary'),
+            (Education.secondary_vocational.value, 'Secondary Vocational'),
+            (Education.incomplete_higher.value, 'Incomplete Higher'),
+            (Education.bachelor.value, 'Bachelor'),
+            (Education.master.value, 'Master'),
+            (Education.phd.value, 'PhD'),
         ]
     }
 
