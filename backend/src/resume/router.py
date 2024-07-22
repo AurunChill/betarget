@@ -7,7 +7,7 @@ from user.models import User
 from vacancy.service import get_vacancy_by_id
 from logger import logger
 
-from .models import ResumeStage
+from .models import ResumeStatus
 from .schemas import ResumeCreate, ResumeRead, ResumeUpdate
 from .service import (
     get_resume_by_id, get_resumes_by_user_id, 
@@ -21,7 +21,7 @@ router = APIRouter()
 @router.get("/", response_model=list[ResumeRead])
 async def get_user_resumes(
         vacancy_id: int | None = None,
-        resume_stage: ResumeStage = "in_work",
+        resume_stage: ResumeStatus = "in_work",
         user: User = Depends(current_user)
 ):
     """

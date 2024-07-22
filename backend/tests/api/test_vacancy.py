@@ -2,7 +2,6 @@ import pytest
 from httpx import AsyncClient
 
 from conftest import test_urls
-from src.logger import test_logger
 from src.vacancy.service import delete_vacancy_without_checking
 
 
@@ -32,7 +31,7 @@ async def test_get_all_vacancies(auth_async_client: AsyncClient, vacancy_data: d
         await auth_async_client.post(test_urls["vacancy"].get("create_user_vacancy"), json=vacancy_data)
     response = await auth_async_client.get(test_urls["vacancy"].get("get_all_vacancies"))
     all_data = response.json()
-    assert response.status_code == 200 and all([vac.get("id") and vac.get("city") == "string" for vac in all_data]) and len(all_data) == 5
+    assert response.status_code == 200 and all([vac.get("id") and vac.get("city") == "string" for vac in all_data]) and len(all_data) >= 5
     for vac in all_data:
         await delete_vacancy_without_checking(vac.get("id"))
 

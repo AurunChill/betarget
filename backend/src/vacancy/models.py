@@ -32,19 +32,23 @@ class EmploymentType(enum.Enum):
     volunteer = "volunteer"
 
 
-class Education(enum.Enum):
-    incomplete_secondary = "incomplete_secondary"
-    secondary = "secondary"
-    secondary_vocational = "secondary_vocational"
-    incomplete_higher = "incomplete_higher"
-    bachelor = "bachelor"
-    master = "master"
-    phd = "phd"
+class EducationDegree(enum.Enum):
+    incomplete_primary = 'incomplete primary'
+    primary = 'primary'
+    secondary = 'secondary'
+    incomplete_secondary = 'incomplete secondary'
+    secondary_vocational = 'secondary vocational'
+    incomplete_higher = 'incomplete higher'
+    higher = 'higher'
+    bachelor = 'bachelor'
+    master = 'master'
+    phd = 'phd'
 
 
 # Models ------------------------
 class Vacancy(Base):
     __tablename__ = "vacancy"
+    __table_args__ = {'extend_existing': True}
 
     id: Mapped[int] = mapped_column(primary_key=True)
 
@@ -54,7 +58,7 @@ class Vacancy(Base):
     experience: Mapped[Experience]
     work_format: Mapped[WorkFormat]
     salary: Mapped[int | None] = None
-    education: Mapped[Education | None] = None
+    education: Mapped[EducationDegree | None] = None
     employment_type: Mapped[EmploymentType]
     skills: Mapped[ARRAY] = mapped_column(ARRAY(String(255)))
     description: Mapped[str]

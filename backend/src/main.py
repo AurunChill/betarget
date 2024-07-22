@@ -16,7 +16,7 @@ from redis_ import redis_connection
 from sse import sse_router
 
 from vacancy.admin import VacancyAdmin
-from resume.admin import ResumeAdmin, CandidateAdmin
+from resume.admin import ResumeAdmin, CandidateAdmin, EducationAdmin, WorkExperienceAdmin
 from user.admin import UserAdmin, OAuthAccountAdmin
 from admin.auth_backend import AdminAuth
 
@@ -37,11 +37,8 @@ async def init_admin():
         authentication_backend=AdminAuth(secret_key=admin_settings.SECRET_SESSION),
     )
     admin_views = [
-        OAuthAccountAdmin,
-        UserAdmin,
-        ResumeAdmin,
-        VacancyAdmin,
-        CandidateAdmin,
+        OAuthAccountAdmin, UserAdmin, VacancyAdmin,
+        ResumeAdmin, CandidateAdmin, EducationAdmin, WorkExperienceAdmin,
     ]
     [admin.add_view(view) for view in admin_views]
 

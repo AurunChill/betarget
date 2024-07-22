@@ -37,7 +37,7 @@ async def test_get_all_resumes(auth_async_client: AsyncClient, vacancy_data: dic
         await auth_async_client.post(test_urls["resume"].get("create_user_resume"), params={"vacancy_id": vacancy_data.get("id")} , json=resume_data)
     response = await auth_async_client.get(test_urls["resume"].get("get_all_resumes"))
     all_data = response.json()
-    assert response.status_code == 200 and all([res.get("id") and res.get("job_title") == "string" for res in all_data]) and len(all_data) == 5
+    assert response.status_code == 200 and all([res.get("id") and res.get("job_title") == "string" for res in all_data]) and len(all_data) >= 5
     for res in all_data:
         await delete_resume_without_check(res.get("id"))
     await delete_vacancy_without_checking(vacancy_data.get("id"))

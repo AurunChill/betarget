@@ -2,7 +2,7 @@ from datetime import datetime
 
 from pydantic import BaseModel, Field, UUID4
 
-from vacancy.models import WorkFormat, Experience, Education, EmploymentType
+from vacancy.models import WorkFormat, Experience, EducationDegree, EmploymentType
 
 
 class VacancyCreate(BaseModel):
@@ -12,7 +12,7 @@ class VacancyCreate(BaseModel):
     experience: Experience | None
     work_format: WorkFormat | None
     salary: int | None = Field(None, ge=0)
-    education: Education | None
+    education: EducationDegree | None
     employment_type: EmploymentType | None
     skills: list[str] | None = Field(None, max_length=20)
     description: str | None = Field(None, max_length=2000)
@@ -27,7 +27,7 @@ class VacancyRead(BaseModel):
     experience: Experience | None
     work_format: WorkFormat | None
     salary: int | None = Field(None, ge=0)
-    education: Education | None
+    education: EducationDegree | None
     employment_type: EmploymentType | None
     skills: list[str] | None = Field(None, max_length=20)
     description: str | None = Field(None, max_length=2000)

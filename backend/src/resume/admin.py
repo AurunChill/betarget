@@ -1,59 +1,53 @@
 from sqladmin import ModelView
-from resume.models import Resume, Candidate, Gender, InterestInJob, ResumeStage, Education
+from resume.models import (
+    Resume, Candidate, Gender,
+    InterestInJob, ResumeStatus, Education,
+    EducationDegree, WorkExperience
+)
+
 
 class ResumeAdmin(ModelView, model=Resume):
     name = "Resume"
     name_plural = "Resumes"
     column_list = [
         "id",
-        "resume_stage",
+        "resume_status",
         "rating",
         "job_title",
         "expected_salary",
         "interest_in_job",
         "skills",
         "experience",
-        "education",
         "ready_to_relocate",
         "ready_for_business_trips",
         "vacancy_id",
     ]
     column_labels = {
         "id": "ID",
-        "resume_stage": "Resume Stage",
+        "resume_status": "Resume Status",
         "rating": "Rating",
         "job_title": "Job Title",
         "expected_salary": "Expected Salary",
         "interest_in_job": "Interest in Job",
         "skills": "Skills",
         "experience": "Experience",
-        "education": "Education",
         "ready_to_relocate": "Ready to Relocate",
         "ready_for_business_trips": "Ready for Business Trips",
         "vacancy_id": "Vacancy ID",
     }
     form_choices = {
-        'resume_stage': [
-            (ResumeStage.in_work.value, 'In Work'),
-            (ResumeStage.screening.value, 'Screening'),
-            (ResumeStage.interview.value, 'Interview'),
-            (ResumeStage.rejected.value, 'Rejected'),
-            (ResumeStage.offer.value, 'Offer')
+        'resume_status': [
+            (ResumeStatus.in_work.value, 'In Work'),
+            (ResumeStatus.screening.value, 'Screening'),
+            (ResumeStatus.interview.value, 'Interview'),
+            (ResumeStatus.rejected.value, 'Rejected'),
+            (ResumeStatus.offer.value, 'Offer')
         ],
         'interest_in_job': [
             (InterestInJob.looking_for_job.value, 'Looking for Job'),
             (InterestInJob.not_looking_for_a_job.value, 'Not Looking for a Job'),
             (InterestInJob.considers_proposals.value, 'Considers Proposals'),
             (InterestInJob.offered_a_job_decides.value, 'Offered a Job, Decides')
-        ],
-        'education': [
-            (Education.incomplete_secondary.value, 'Incomplete Secondary'),
-            (Education.secondary.value, 'Secondary'),
-            (Education.secondary_vocational.value, 'Secondary Vocational'),
-            (Education.incomplete_higher.value, 'Incomplete Higher'),
-            (Education.bachelor.value, 'Bachelor'),
-            (Education.master.value, 'Master'),
-            (Education.phd.value, 'PhD'),
         ]
     }
 
@@ -74,8 +68,7 @@ class CandidateAdmin(ModelView, model=Candidate):
         "github",
         "email",
         "phone_number",
-        "profile_picture",
-        "resume_id",
+        "profile_picture_url",
     ]
     column_labels = {
         "id": "ID",
@@ -91,8 +84,7 @@ class CandidateAdmin(ModelView, model=Candidate):
         "github": "GitHub",
         "email": "Email",
         "phone_number": "Phone Number",
-        "profile_picture": "Profile Picture",
-        "resume_id": "Resume ID",
+        "profile_picture_url": "Profile Picture URL",
     }
     form_choices = {
         'gender': [
@@ -100,4 +92,58 @@ class CandidateAdmin(ModelView, model=Candidate):
             (Gender.female.value, 'Female'),
             (Gender.other.value, 'Other')
         ]
+    }
+
+class EducationAdmin(ModelView, model=Education):
+    name = "Education"
+    name_plural = "Educations"
+    column_list = [
+        "id",
+        "resume_id",
+        "educational_institution",
+        "year",
+        "degree"
+        "specialization",
+    ]
+    column_labels = {
+        "id": "ID",
+        "resume_id": "Resume ID",
+        "educational_institution": "Educational Institution",
+        "year": "Graduated Year",
+        "degree": "Degree",
+        "specialization": "Specialization",
+    }
+    form_choices = {
+        'degree': [
+            (EducationDegree.incomplete_primary.value, 'Incomplete Primary'),
+            (EducationDegree.primary.value, 'Primary'),
+            (EducationDegree.secondary.value, 'Secondary'),
+            (EducationDegree.incomplete_secondary.value, 'Incomplete Secondary'),
+            (EducationDegree.secondary_vocational.value, 'Secondary Vocational'),
+            (EducationDegree.incomplete_higher.value, 'Incomplete Higher'),
+            (EducationDegree.higher.value, 'Higher'),
+            (EducationDegree.bachelor.value, 'Bachelor'),
+            (EducationDegree.master.value, 'Master'),
+            (EducationDegree.phd.value, 'PhD')
+        ]
+    }
+
+class WorkExperienceAdmin(ModelView, model=WorkExperience):
+    name = "WorkExperience"
+    name_plural = "WorkExperiences"
+    column_list = [
+        "id",
+        "resume_id",
+        "company",
+        "start_date",
+        "end_date",
+        "description",
+    ]
+    column_labels = {
+        "id": "ID",
+        "resume_id": "Resume ID",
+        "company": "Company",
+        "start_date": "Start Date",
+        "end_date": "End Date",
+        "description": "Description",
     }

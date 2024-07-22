@@ -13,7 +13,7 @@ api_prefix = "/api/v1"
 test_urls = {
     "auth": {
         "register": "/auth/register",
-        "login":"/auth/login",
+        "login": "/auth/login",
         "logout": "/auth/logout",
         "forgot_password": "/auth/forgot-password",
         "reset_password": "/auth/reset-password",
@@ -43,7 +43,7 @@ test_urls = {
     },
     "sse": {
         "get_sse": f"{api_prefix}/sse/events",
-    }
+    },
 }
 
 
@@ -80,62 +80,82 @@ async def vacancy_data() -> dict:
         "experience": "no experience",
         "work_format": "in office",
         "salary": 25000,
-        "education": "incomplete_secondary",
+        "education": "phd",
         "employment_type": "full_time",
-        "skills": [
-            "string"
-        ],
-        "description": "string"
+        "skills": ["string"],
+        "description": "string",
     }
 
 
 @pytest.fixture
 async def resume_data() -> dict:
     return {
-    "resume_stage": "in_work",
-    "rating": 5,
-    "job_title": "string",
-    "expected_salary": 12000,
-    "interest_in_job": "looking for job",
-    "skills": [
-        "string"
-    ],
-    "experience": "string",
-    "education": "string",
-    "ready_to_relocate": True,
-    "ready_for_business_trips": False,
-    "candidate": {
-        "first_name": "string",
-        "last_name": "string",
-        "age": 33,
-        "gender": "male",
-        "city": "string",
-        "about": "string",
-        "telegram": "https://example.com/",
-        "whatsapp": "https://example.com/",
-        "linkedin": "https://example.com/",
-        "github": "https://example.com/",
-        "email": "user@example.com",
-        "phone_number": "+77777777777",
-        "profile_picture": "https://example.com/"
+        "resume_status": "in_work",
+        "rating": 5,
+        "job_title": "string",
+        "expected_salary": 15000,
+        "interest_in_job": "looking for job",
+        "skills": ["string"],
+        "ready_to_relocate": True,
+        "ready_for_business_trips": True,
+        "candidate": {
+            "first_name": "string",
+            "last_name": "string",
+            "age": 25,
+            "gender": "male",
+            "city": "string",
+            "about": "string",
+            "telegram": "https://example.com/",
+            "whatsapp": "https://example.com/",
+            "linkedin": "https://example.com/",
+            "github": "https://example.com/",
+            "email": "user@example.com",
+            "phone_number": "+77777777777",
+            "profile_picture_url": "https://example.com/",
+        },
+        "educations": [
+            {
+                "educational_institution": "string",
+                "year": "2024",
+                "degree": "incomplete primary",
+                "specialization": "string",
+            }
+        ],
+        "experiences": [
+            {
+                "company": "string",
+                "start_date": "2024-07-22",
+                "end_date": "2024-07-22",
+                "description": "string",
+            }
+        ],
     }
-    }
+
 
 @pytest_asyncio.fixture
 async def async_client() -> AsyncGenerator[AsyncClient, None]:
-    async with AsyncClient(transport=ASGITransport(app=app), base_url=settings.test.BASE_URL) as client:
+    async with AsyncClient(
+        transport=ASGITransport(app=app), base_url=settings.test.BASE_URL
+    ) as client:
         yield client
 
 
 @pytest_asyncio.fixture
 async def auth_async_client(async_client: AsyncClient, user_data: dict) -> AsyncClient:
-    response_data = await async_client.post(url=test_urls["auth"].get("register"), json={
-        "username": user_data.get("username"),
-        "email": user_data.get("email"),
-        "password": user_data.get("password"),
-    })
-    login_response = await async_client.post(url=test_urls["auth"].get("login"), 
-        data={"username": user_data.get("email"), "password": user_data.get("password")}
+    response_data = await async_client.post(
+        url=test_urls["auth"].get("register"),
+        json={
+            "username": user_data.get("username"),
+            "email": user_data.get("email"),
+            "password": user_data.get("password"),
+        },
+    )
+    login_response = await async_client.post(
+        url=test_urls["auth"].get("login"),
+        data={
+            "username": user_data.get("email"),
+            "password": user_data.get("password"),
+        },
     )
     async_client.cookies = {
         "bonds": login_response.headers.get("set-cookie").split(";")[0][6:],
