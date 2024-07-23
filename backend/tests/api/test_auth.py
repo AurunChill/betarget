@@ -18,7 +18,7 @@ async def test_register_successfully(async_client: AsyncClient, user_data: dict)
     assert db_user.username == data.get("username")
     assert db_user.email == data.get("email")
     assert db_user.phone_number == data.get("phone_number")
-    assert db_user.profile_picture == data.get("profile_picture")
+    assert db_user.profile_picture_url == data.get("profile_picture_url")
     assert response_data.status_code == 201 and db_user is not None
     await delete_user(db_user)
 

@@ -62,8 +62,6 @@ services:
       service: base_service
     container_name: celery_betarget_backend
     command: ["/bin/sh", "-c", "./docker/celery.sh"]
-    volumes:
-      - ./logs:/betarget_backend/logs
     depends_on:
       - rabbitmq
 
@@ -86,6 +84,8 @@ services:
     ports:
       - 9999:8080
     command: ["sh", "./docker/app.sh"]
+    volumes:
+      - ./migrations/versions:/betarget_backend/migrations/versions
     depends_on:
       - db
       - db-test

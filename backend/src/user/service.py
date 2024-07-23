@@ -56,16 +56,16 @@ async def update_user_profile_picture(user: User, profile_picture: UploadFile | 
         if not db_user:
             raise HTTPException(status_code=404, detail="User not found")
         if profile_picture:
-            if db_user.profile_picture and s3_settings.S3_PUBLIC_DOMAIN in db_user.profile_picture:
-                delete_path = '/'.join(db_user.profile_picture.split('/')[3:])
+            if db_user.profile_picture_url and s3_settings.S3_PUBLIC_DOMAIN in db_user.profile_picture_url:
+                delete_path = '/'.join(db_user.profile_picture_url.split('/')[3:])
                 await s3_client.delete_file(delete_path)
             s3_key = f"profile-pictures/{user.username}/{profile_picture.filename}"
-            profile_url = await s3_client.upload_file(
+            picture_url = await s3_client.upload_file(
                 object_name=s3_key,
                 file_data=profile_picture.file,
             )
-            db_user.profile_picture = profile_url
+            db_user.profile_picture_url = picture_url
         session.add(db_user)
         await session.commit()
         await session.refresh(db_user)
-        return db_user.profile_picture
+        return db_user.profile_picture_url

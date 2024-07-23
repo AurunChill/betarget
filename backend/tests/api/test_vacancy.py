@@ -70,7 +70,7 @@ async def test_update_vacancy_incorrect(auth_async_client: AsyncClient, vacancy_
 async def test_get_user_vacancy(auth_async_client: AsyncClient, vacancy_data: dict):
     create_response = await auth_async_client.post(test_urls["vacancy"].get("create_user_vacancy"), json=vacancy_data)
     created_data = create_response.json()
-    response = await auth_async_client.get(test_urls["vacancy"].get("get_user_vacancy") + f"{created_data.get("id")}")
+    response = await auth_async_client.get(test_urls["vacancy"].get("get_user_vacancy") + f"{created_data.get('id')}")
     assert response.status_code == 200 and response.json().get("id") == created_data.get("id")
     await delete_vacancy_without_checking(created_data.get("id"))
 

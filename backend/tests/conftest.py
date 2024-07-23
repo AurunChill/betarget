@@ -67,7 +67,8 @@ async def user_data() -> dict:
         "whatsapp": "https://example.com/",
         "linkedin": "https://example.com/",
         "phone_number": "+77777777777",
-        "profile_picture": "https://example.com/",
+        "subscription_type": "free",
+        "profile_picture_url": "https://example.com/",
     }
 
 

@@ -13,7 +13,7 @@ from src.config import PROJECT_PATH, settings
 async def test_update_user(auth_async_client: AsyncClient, user_data: dict):
     init_user_data = user_data.copy()
     new_data = init_user_data.copy()
-    del new_data["profile_picture"]
+    del new_data["profile_picture_url"]
     new_data["phone_number"] = "+79998887766"
     new_data["linkedin"] = "https://linkedin.com/"
     logger.info(f"User data {user_data}")
@@ -44,6 +44,7 @@ async def test_update_profile_image_success(auth_async_client: AsyncClient):
         response = await auth_async_client.put(test_urls["user"].get("update_profile_image"), files=files)
         response_data = response.json()
     
+    logger.info(f"Update profile image response data {response_data}")
     test_url = settings.s3.S3_PUBLIC_DOMAIN + "/" + "profile-pictures/test_user/" + filename
     assert response.status_code == 200 and response_data == test_url
     await s3_client.delete_file(filename)

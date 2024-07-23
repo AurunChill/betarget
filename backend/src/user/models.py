@@ -1,13 +1,19 @@
 from datetime import datetime
 import uuid
 from typing import List
+import enum
 
 from fastapi_users_db_sqlalchemy import SQLAlchemyBaseUserTable, SQLAlchemyBaseOAuthAccountTableUUID
-from sqlalchemy import String, Boolean, text, Integer, ForeignKey
+from sqlalchemy import String, Boolean, text, Integer, ForeignKey, Enum
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from base import Base
+
+
+class SubscriptionType(enum.Enum):
+    free = "free"
+    premium = "premium"
 
 
 class OAuthAccount(SQLAlchemyBaseOAuthAccountTableUUID, Base):
@@ -27,44 +33,27 @@ class OAuthAccount(SQLAlchemyBaseOAuthAccountTableUUID, Base):
 
 class User(SQLAlchemyBaseUserTable[uuid.UUID], Base):
     __tablename__ = "user"
-    oauth_accounts: Mapped[List[OAuthAccount]] = relationship(
-        "OAuthAccount", lazy="joined"
-    )
+    oauth_accounts: Mapped[List[OAuthAccount]] = relationship("OAuthAccount", lazy="joined", cascade="all, delete")
 
     id: Mapped[UUID] = mapped_column(
         UUID(as_uuid=True), unique=True, index=True, nullable=False, primary_key=True, default=uuid.uuid4
     )
-    username: Mapped[str] = mapped_column(
-        String(30), unique=True
-    )
-    email: Mapped[str] = mapped_column(
-        String(50), unique=True, index=True, nullable=False
-    )
-    hashed_password: Mapped[str] = mapped_column(
-        String(1023), nullable=False
-    )
-    registered_at: Mapped[datetime] = mapped_column(
-        server_default=text("TIMEZONE('utc', now())")
-    )
-
+    username: Mapped[str] = mapped_column(String(30), unique=True)
+    email: Mapped[str] = mapped_column(String(50), unique=True, index=True, nullable=False)
+    hashed_password: Mapped[str] = mapped_column(String(1023), nullable=False)
+    registered_at: Mapped[datetime] = mapped_column(server_default=text("TIMEZONE('utc', now())"))
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
-    is_superuser: Mapped[bool] = mapped_column(
-        Boolean, default=False, nullable=False
-    )
-    is_verified: Mapped[bool] = mapped_column(
-        Boolean, default=False, nullable=False
-    )
-
-    # contacts
-    telegram: Mapped[str | None] = mapped_column(String, nullable=True)
-    whatsapp: Mapped[str | None] = mapped_column(String, nullable=True)
-    linkedin: Mapped[str | None] = mapped_column(String, nullable=True)
-    email: Mapped[str | None] 
+    is_superuser: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    is_verified: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    telegram: Mapped[str | None]
+    whatsapp: Mapped[str | None]
+    linkedin: Mapped[str | None]
+    email: Mapped[str | None]
     phone_number: Mapped[str | None]
     verification_token: Mapped[str | None]
     reset_password_token: Mapped[str | None]
-
-    profile_picture: Mapped[str | None] = mapped_column(String, nullable=True)
+    subscription_type: Mapped[SubscriptionType | None] = mapped_column(Enum(SubscriptionType), default=SubscriptionType.free)
+    profile_picture_url: Mapped[str | None]
 
     vacancies = relationship("Vacancy", back_populates="user", cascade="all, delete", passive_deletes=True)
 

@@ -2,6 +2,7 @@ from pydantic import EmailStr, AnyHttpUrl , UUID4,  Field, field_validator, Base
 from pydantic_extra_types.phone_numbers import PhoneNumber
 
 from fastapi_users import schemas
+from .models import SubscriptionType
 
 
 class UserRead(schemas.BaseUser[int]):
@@ -11,13 +12,13 @@ class UserRead(schemas.BaseUser[int]):
     is_active: bool
     is_superuser: bool
     is_verified: bool
-    # contacts
     telegram: str | None
     whatsapp: str | None
     linkedin: str | None
     email: EmailStr | None
+    subscription_type: SubscriptionType
     phone_number: PhoneNumber | None
-    profile_picture: str | None
+    profile_picture_url: str | None
 
 
 class UserCreate(schemas.BaseUserCreate):
@@ -46,9 +47,9 @@ class UserUpdate(BaseModel):
     linkedin: AnyHttpUrl | None = Field(None)
     email: EmailStr | None = Field(None)
     phone_number: PhoneNumber | None
-    profile_picture: AnyHttpUrl | None = Field(None)
+    profile_picture_url: AnyHttpUrl | None = Field(None)
 
-    @field_validator("telegram", "whatsapp", "linkedin", "profile_picture")
+    @field_validator("telegram", "whatsapp", "linkedin", "profile_picture_url")
     def validate_urls(cls, v):
         if v is None:
             return "https://example.com"
