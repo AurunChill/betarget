@@ -12,7 +12,7 @@ from config import settings
 
 try:
     from httpx_oauth.oauth2 import BaseOAuth2
-    from src.auth.socials.router import get_oauth_router
+    from auth.socials.router import get_oauth_router
 except ModuleNotFoundError:
     BaseOAuth2 = Type
 

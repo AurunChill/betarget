@@ -14,8 +14,8 @@ from fastapi_users.manager import BaseUserManager, UserManagerDependency
 from fastapi_users.router.common import ErrorCode, ErrorModel
 from fastapi.responses import RedirectResponse
 
-from src.config import settings
-from src.logger import logger
+from config import settings
+from logger import logger
 
 
 STATE_TOKEN_AUDIENCE = "fastapi-users:oauth-state"
