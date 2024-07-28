@@ -2,7 +2,7 @@ import pytest
 from httpx import AsyncClient
 
 from conftest import test_urls
-from src.vacancy.service import delete_vacancy_without_checking
+from vacancy.service import delete_vacancy_without_checking
 
 
 @pytest.mark.asyncio

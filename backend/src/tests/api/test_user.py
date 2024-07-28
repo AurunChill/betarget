@@ -4,9 +4,9 @@ import pytest
 from httpx import AsyncClient
 
 from conftest import test_urls
-from src.s3_storage import s3_client
-from src.logger import test_logger as logger
-from src.config import PROJECT_PATH, settings
+from s3_storage import s3_client
+from logger import test_logger as logger
+from config import PROJECT_PATH, settings
 
 
 @pytest.mark.asyncio
@@ -34,7 +34,7 @@ async def test_update_unsuccessfully(auth_async_client: AsyncClient, user_data: 
 @pytest.mark.asyncio
 async def test_update_profile_image_success(auth_async_client: AsyncClient):
     filename = "test_image.png"
-    test_image_path = PROJECT_PATH / "tests" / "img" / filename
+    test_image_path = PROJECT_PATH / "src" / "tests" / "img" / filename
 
     if not os.path.exists(test_image_path):
         pytest.fail("Test image file does not exist")

@@ -2,8 +2,8 @@ import pytest
 from httpx import AsyncClient
 
 from conftest import test_urls
-from src.resume.service import delete_resume_without_check
-from src.vacancy.service import delete_vacancy_without_checking
+from resume.service import delete_resume_without_check
+from vacancy.service import delete_vacancy_without_checking
 
 
 @pytest.mark.asyncio

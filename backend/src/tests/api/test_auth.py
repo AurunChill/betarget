@@ -2,7 +2,7 @@ import pytest
 from httpx import AsyncClient
 
 from conftest import test_urls
-from src.user.service import get_user_by_username, delete_user
+from user.service import get_user_by_username, delete_user
 
 
 @pytest.mark.asyncio
