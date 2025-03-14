@@ -1,52 +1,88 @@
-## Сloud CRM for automating recruitment and maintaining a candidate database.
+## Облачная CRM для автоматизации найма и ведения базы кандидатов
 
 ### Backend:
 - **API** - [FastAPI](https://fastapi.tiangolo.com).
 - **ORM** - [SQLAlchemy](https://www.sqlalchemy.org).
-- **Database** - [PostgreSQL](https://www.postgresql.org).
-- **Data validation** - [Pydantic](https://docs.pydantic.dev).
+- **База данных** - [PostgreSQL](https://www.postgresql.org).
+- **Валидация данных** - [Pydantic](https://docs.pydantic.dev).
 
-### Frontend: 
-- HTML, CSS, SCSS, JavaScript, Vue(in future)
+### Frontend:
+- HTML, CSS, SCSS, JavaScript, Vue (в будущем)
 
-### Other:
+### Дополнительно:
 - 🐳 [Docker Compose](https://www.docker.com).
-- ✅ **Tests** - [Pytest](https://pytest.org).
-- 🔐 **Secure password** hashing by default.
-- 🔑 **JWT** (JSON Web Token) authentication.
-- 📫 Email based **password recovery**.
+- ✅ **Тесты** - [Pytest](https://pytest.org).
+- 🔐 **Безопасное хеширование паролей** по умолчанию.
+- 🔑 Аутентификация через **JWT** (JSON Web Token).
+- 📫 Восстановление пароля через **email**.
 
-### Entities in project:
-- User
-- Vacancy 
-- Resume
-- Client (the one who issues orders for recruiting specialists). (exp 20.06.2024 - 1.07.2024)
+### Сущности в проекте:
+- Пользователь (User)
+- Вакансия (Vacancy)
+- Резюме (Resume)
+- Клиент (тот, кто заказывает подбор специалистов). (ожидается 20.06.2024 - 1.07.2024)
 - ...
 
-### Project history/roadmap:
-- ✅ Project init - 30.04.2024
-- ✅ Add authentication | Add user, resume and vacancy entities - 02.05.2024
-- .... 02.05.2024-29.05.2024 - many changes, start history from here.
-- ✅ Hello Frontend 🌻 - 30.05.2024
-- ✅ Add tests - 12.06.2024
-- --- ✅ Auth
-- --- ✅ Vacancy _in progress_
-- --- Resume _in progress_
-- ✅ Add docker - 14.06.2024
-- Project **v0.1.0** - first working version: register, login and crm pages ready - (exp 1.07.2024 - 30.07.2024)
-- Client entity. (exp 1.07.2024 - 30.07.2024) (will be in project **v0.1.0**)
-- Add GitHub Action for automated tests. (will be in project **v0.1.0**)
-- Sending emails from crm. (will be in project **v0.2.0**)
-- Sending messages from crm to: telegram, whatsapp, etc. (will be in project **v0.2.0**)
-- Obtaining data from job search sites. (will be in project **v0.2.0**)
-- English version. (will be in project **v0.2.0**)
-- Integration with job search sites. (will be in project **v0.3.0**)
-- Extension for browsers (will be in project **v0.4.0**-**v0.5.0**)
+### История проекта/дорожная карта:
+- ✅ Инициализация проекта - 30.04.2024
+- ✅ Добавление аутентификации | Добавление сущностей пользователя, резюме и вакансии - 02.05.2024
+- .... 02.05.2024-29.05.2024 - множество изменений, история начинается здесь.
+- ✅ Привет, Frontend 🌻 - 30.05.2024
+- ✅ Добавление тестов - 12.06.2024
+- --- ✅ Аутентификация
+- --- ✅ Вакансии _в процессе_
+- --- Резюме _в процессе_
+- ✅ Добавление Docker - 14.06.2024
+- Проект **v0.1.0** - первая рабочая версия: готовы страницы регистрации, входа и CRM - (ожидается 1.07.2024 - 30.07.2024)
+- Сущность Клиент. (ожидается 1.07.2024 - 30.07.2024) (будет в проекте **v0.1.0**)
+- Добавление GitHub Action для автоматизированных тестов. (будет в проекте **v0.1.0**)
+- Отправка писем из CRM. (будет в проекте **v0.2.0**)
+- Отправка сообщений из CRM в: Telegram, WhatsApp и т.д. (будет в проекте **v0.2.0**)
+- Получение данных с сайтов поиска работы. (будет в проекте **v0.2.0**)
+- Английская версия. (будет в проекте **v0.2.0**)
+- Интеграция с сайтами поиска работы. (будет в проекте **v0.3.0**)
+- Расширение для браузеров (будет в проекте **v0.4.0**-**v0.5.0**)
 
-### LOGIN page
+### Доступные маршруты:
+- **Маршруты аутентификации:**
+  - `GET /auth/ask_verification` - Запрос верификации
+  - `GET /auth/verify-account` - Верификация пользователя
+  - `POST /auth/forgot-password` - Сброс забытого пароля
+  - `POST /auth/reset-password` - Сброс пароля
+  - `POST /auth/login` - Вход через JWT
+  - `POST /auth/logout` - Выход через JWT
+  - `POST /auth/register` - Регистрация
+  - `GET /auth/google/authorize` - OAuth авторизация через Google JWT
+  - `GET /auth/google/callback` - OAuth обратный вызов Google JWT
+
+- **Маршруты пользователя:**
+  - `PUT /api/v1/user/` - Обновление пользователя
+  - `DELETE /api/v1/user/` - Удаление пользователя
+  - `PUT /api/v1/user/update_profile_image` - Обновление изображения профиля пользователя
+  - `GET /api/v1/user/is_exists` - Проверка существования пользователя
+  - `GET /api/v1/user/my_data` - Получение моих данных
+
+- **Маршруты вакансий:**
+  - `GET /api/v1/vacancy/` - Чтение вакансий пользователя
+  - `PUT /api/v1/vacancy/` - Обновление вакансии пользователя
+  - `POST /api/v1/vacancy/` - Создание вакансии пользователя
+  - `GET /api/v1/vacancy/{vacancy_id}` - Чтение вакансии по ID
+  - `DELETE /api/v1/vacancy/{vacancy_id}` - Удаление вакансии
+
+- **Маршруты резюме:**
+  - `GET /api/v1/resume/` - Получение резюме пользователя
+  - `POST /api/v1/resume/` - Создание резюме пользователя
+  - `PUT /api/v1/resume/` - Обновление резюме пользователя
+  - `GET /api/v1/resume/{resume_id}` - Получение резюме по ID
+  - `DELETE /api/v1/resume/{resume_id}` - Удаление резюме
+
+- **Маршруты SSE:**
+  - `GET /api/v1/sse/events` - Поток событий
+
+### Страница входа (LOGIN)
 [![API docs](design/login_betarget.png)](https://github.com/ShinKranel/betarget/)
-*will be in project v0.1.0
+*будет в проекте v0.1.0
 
-### CRM page
-[![API docs](design/crm_page_betarget.png)](https://github.com/ShinKranel/betarget)
-*will be in project v0.1.0
+### Страница CRM
+[![API docs](design/crm_page_betarget.png)](https://github.com/ShinKranel/betarget/)
+*будет в проекте v0.1.0
